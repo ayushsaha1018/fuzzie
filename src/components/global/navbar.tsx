@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/nextjs";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,7 +51,7 @@ const Navbar = async (props: Props) => {
             {true ? 'Dashboard' : 'Get Started'}
           </span>
         </Link>
-        {/* {user ? <UserButton afterSignOutUrl="/" /> : null} */}
+        <UserButton />
         <MenuIcon className="md:hidden" />
       </aside>
     </header>

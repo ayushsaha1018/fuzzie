@@ -17,17 +17,20 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-type Props = {};
+type Props = {
+  user: any;
+  onUpdate?: any;
+};
 
-const ProfileForm = (props: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
+const ProfileForm = ({ user, onUpdate }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);  
 
   const form = useForm<z.infer<typeof EditUserProfileSchema>>({
     mode: "onChange",
     resolver: zodResolver(EditUserProfileSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: user.name,
+      email: user.email,
     },
   });
 
@@ -35,7 +38,7 @@ const ProfileForm = (props: Props) => {
     values: z.infer<typeof EditUserProfileSchema>
   ) => {
     setIsLoading(true);
-    // await onUpdate(values.name)
+    await onUpdate(values.name);
     setIsLoading(false);
   };
 
@@ -60,7 +63,7 @@ const ProfileForm = (props: Props) => {
           )}
         />
         <FormField
-          control={form.control }
+          control={form.control}
           disabled={true}
           name="email"
           render={({ field }) => (
@@ -69,7 +72,6 @@ const ProfileForm = (props: Props) => {
               <FormControl>
                 <Input
                   {...field}
-                  disabled={true}
                   placeholder="Email"
                   type="email"
                 />
