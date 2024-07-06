@@ -1,7 +1,8 @@
-'use server'
+"use server";
 
-import { db } from '@/lib/db'
-import { currentUser } from '@clerk/nextjs'
+import { db } from "@/lib/db";
+import { currentUser } from "@clerk/nextjs";
+import { Client } from "@notionhq/client";
 
 export const onNotionConnect = async (
   access_token: string,
@@ -11,7 +12,7 @@ export const onNotionConnect = async (
   database_id: string,
   id: string
 ) => {
-  'use server'
+  "use server";
   if (access_token) {
     //check if notion is connected
     const notion_connected = await db.notion.findFirst({
@@ -25,7 +26,7 @@ export const onNotionConnect = async (
           },
         },
       },
-    })
+    });
 
     if (!notion_connected) {
       //create connection
@@ -40,11 +41,65 @@ export const onNotionConnect = async (
           connections: {
             create: {
               userId: id,
-              type: 'Notion',
+              type: "Notion",
             },
           },
         },
-      })
+      });
     }
   }
-}
+};
+export const getNotionConnection = async () => {
+  const user = await currentUser();
+  if (user) {
+    const connection = await db.notion.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+    if (connection) {
+      return connection;
+    }
+  }
+};
+
+export const getNotionDatabase = async (
+  databaseId: string,
+  accessToken: string
+) => {
+  const notion = new Client({
+    auth: accessToken,
+  });
+  const response = await notion.databases.retrieve({ database_id: databaseId });
+  return response;
+};
+
+export const onCreateNewPageInDatabase = async (
+  databaseId: string,
+  accessToken: string,
+  content: string
+) => {
+  const notion = new Client({
+    auth: accessToken,
+  });
+
+  console.log(databaseId);
+  const response = await notion.pages.create({
+    parent: {
+      type: "database_id",
+      database_id: databaseId,
+    },
+    properties: {
+      name: [
+        {
+          text: {
+            content: content,
+          },
+        },
+      ],
+    },
+  });
+  if (response) {
+    return response;
+  }
+};
