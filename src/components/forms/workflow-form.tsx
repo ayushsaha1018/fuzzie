@@ -1,17 +1,17 @@
-import { WorkflowFormSchema } from '@/lib/types'
-import { useModal } from '@/providers/modal-provider'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { Button } from '../ui/button'
+import { WorkflowFormSchema } from "@/lib/types";
+import { useModal } from "@/providers/modal-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../ui/card'
+} from "../ui/card";
 import {
   Form,
   FormControl,
@@ -19,30 +19,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form'
-import { Input } from '../ui/input'
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { onCreateWorkflow } from "@/app/(main)/(pages)/workflows/_actions/workflow-connections";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  title?: string
-  subTitle?: string
-}
+  title?: string;
+  subTitle?: string;
+};
 
 const Workflowform = ({ subTitle, title }: Props) => {
-  const { setClose } = useModal()
+  const { setClose } = useModal();
   const form = useForm<z.infer<typeof WorkflowFormSchema>>({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: zodResolver(WorkflowFormSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
     },
-  })
+  });
 
-  const isLoading = form.formState.isLoading
+  const isLoading = form.formState.isLoading;
+  const router = useRouter();
 
   const handleSubmit = async (values: z.infer<typeof WorkflowFormSchema>) => {
-    setClose()
-  }
+    const workflow = await onCreateWorkflow(values.name, values.description);
+    if (workflow) {
+      toast.message(workflow.message);
+      router.refresh();
+      setClose();
+    }
+  };
 
   return (
     <Card className="w-full max-w-[650px] border-none">
@@ -66,10 +75,7 @@ const Workflowform = ({ subTitle, title }: Props) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Name"
-                    />
+                    <Input {...field} placeholder="Name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,33 +89,26 @@ const Workflowform = ({ subTitle, title }: Props) => {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Description"
-                      {...field}
-                    />
+                    <Input placeholder="Description" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              className="mt-4"
-              disabled={isLoading}
-              type="submit"
-            >
+            <Button className="mt-4" disabled={isLoading} type="submit">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving
                 </>
               ) : (
-                'Save Settings'
+                "Save Settings"
               )}
             </Button>
           </form>
         </Form>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default Workflowform
+export default Workflowform;
