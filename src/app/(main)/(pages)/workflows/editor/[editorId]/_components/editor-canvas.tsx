@@ -1,5 +1,4 @@
 "use client";
-
 import {
   ResizableHandle,
   ResizablePanel,
@@ -11,9 +10,6 @@ import { useEditor } from "@/providers/editor-provider";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactFlow, {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
   Background,
   Connection,
   Controls,
@@ -22,14 +18,17 @@ import ReactFlow, {
   MiniMap,
   NodeChange,
   ReactFlowInstance,
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { toast } from "sonner";
 import { v4 } from "uuid";
-import EditorCanvasCardSingle from "./editor-canvas-card-single";
-import FlowInstance from "./flow-instance";
-import EditorCanvasSidebar from "./editor-canvas-sidebar";
 import { onGetNodesEdges } from "../../../_actions/workflow-connections";
+import EditorCanvasCardSingle from "./editor-canvas-card-single";
+import EditorCanvasSidebar from "./editor-canvas-sidebar";
+import FlowInstance from "./flow-instance";
 
 type Props = {};
 
@@ -44,7 +43,6 @@ const EditorCanvas = (props: Props) => {
   const [isWorkFlowLoading, setIsWorkFlowLoading] = useState<boolean>(false);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
-
   const pathname = usePathname();
 
   const onDragOver = useCallback((event: any) => {

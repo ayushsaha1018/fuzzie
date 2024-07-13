@@ -43,6 +43,7 @@ export async function GET() {
     pageToken: startPageToken,
     supportsAllDrives: true,
     supportsTeamDrives: true,
+    includeRemoved: true,
     requestBody: {
       id: channelId,
       type: "web_hook",
