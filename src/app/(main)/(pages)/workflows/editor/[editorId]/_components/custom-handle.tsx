@@ -1,6 +1,6 @@
 import { useEditor } from "@/providers/editor-provider";
-import React, { CSSProperties } from "react";
-import { Handle, HandleProps, useStore } from "reactflow";
+import { CSSProperties } from "react";
+import { Handle, HandleProps } from "reactflow";
 
 type Props = HandleProps & { style?: CSSProperties };
 
@@ -11,7 +11,6 @@ const selector = (s: any) => ({
 
 const CustomHandle = (props: Props) => {
   const { state } = useEditor();
-  const { nodeInternals, edges } = useStore(selector);
 
   return (
     <Handle

@@ -1,14 +1,13 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { useNodeConnections } from "@/providers/connections-provider";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
   onCreateNodesEdges,
   onFlowPublish,
 } from "../_actions/workflow-connections";
-import { toast } from "sonner";
 
 type Props = {
   children: React.ReactNode;
@@ -40,10 +39,11 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   const onAutomateFlow = async () => {
     const flows: any = [];
     const connectedEdges = edges.map((edge) => edge.target);
-
     connectedEdges.map((target) => {
-      nodes.forEach((node) => {
-        if (node.id === target) flows.push(node.type);
+      nodes.map((node) => {
+        if (node.id === target) {
+          flows.push(node.type);
+        }
       });
     });
 

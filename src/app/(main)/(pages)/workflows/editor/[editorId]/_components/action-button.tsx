@@ -156,7 +156,7 @@ const ActionButton = ({
         );
 
       default:
-        break;
+        return null;
     }
   };
   return renderActionButton();

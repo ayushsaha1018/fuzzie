@@ -14,7 +14,6 @@ export default authMiddleware({
     "/api/flow",
     "/api/cron/wait",
   ],
-  debug: true,
 });
 
 export const config = {

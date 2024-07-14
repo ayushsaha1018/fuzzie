@@ -1,27 +1,28 @@
+import { Badge } from "@/components/ui/badge";
 import { EditorCanvasCardType } from "@/lib/types";
 import { useEditor } from "@/providers/editor-provider";
 import { useMemo } from "react";
 import { Position, useNodeId } from "reactflow";
 import CustomHandle from "./custom-handle";
-import EditorCanvasIconHelper from "./editor-canvas-icon-helper";
+
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import clsx from "clsx";
+import EditorCanvasIconHelper from "./editor-canvas-icon-helper";
 
 type Props = {};
 
 const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
   const { dispatch, state } = useEditor();
   const nodeId = useNodeId();
-
   const logo = useMemo(() => {
     return <EditorCanvasIconHelper type={data.type} />;
   }, [data]);
+
   return (
     <>
       {data.type !== "Trigger" && data.type !== "Google Drive" && (

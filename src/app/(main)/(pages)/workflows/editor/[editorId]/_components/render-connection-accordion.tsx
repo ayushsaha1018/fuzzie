@@ -1,5 +1,4 @@
 "use client";
-
 import ConnectionCard from "@/app/(main)/(pages)/connections/_components/connection-card";
 import { AccordionContent } from "@/components/ui/accordion";
 import MultipleSelector from "@/components/ui/multiple-selector";
@@ -9,7 +8,28 @@ import { EditorState } from "@/providers/editor-provider";
 import { useFuzzieStore } from "@/store";
 import React from "react";
 
-type Props = {};
+const frameworks = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+  {
+    value: "nuxt.js",
+    label: "Nuxt.js",
+  },
+  {
+    value: "remix",
+    label: "Remix",
+  },
+  {
+    value: "astro",
+    label: "Astro",
+  },
+];
 
 const RenderConnectionAccordion = ({
   connection,
@@ -27,6 +47,7 @@ const RenderConnectionAccordion = ({
     alwaysTrue,
     slackSpecial,
   } = connection;
+
   const { nodeConnection } = useNodeConnections();
   const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } =
     useFuzzieStore();
