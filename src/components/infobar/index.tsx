@@ -1,20 +1,17 @@
 "use client";
-import React, { useEffect } from "react";
-import { ModeToggle } from "../global/mode-toggle";
-import { Book, Headphones, Search } from "lucide-react";
-import Templates from "../icons/cloud_download";
 import { Input } from "@/components/ui/input";
+import { Book, Headphones, Search } from "lucide-react";
+import { useEffect } from "react";
 
+import { onPaymentDetails } from "@/app/(main)/(pages)/billing/_actions/payment-connections";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { UserButton } from "@clerk/nextjs";
-// import { UserButton } from '@clerk/nextjs'
 import { useBilling } from "@/providers/billing-provider";
-import { onPaymentDetails } from "@/app/(main)/(pages)/billing/_actions/payment-connections";
+import { UserButton } from "@clerk/nextjs";
 
 type Props = {};
 

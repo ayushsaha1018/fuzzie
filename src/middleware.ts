@@ -13,8 +13,8 @@ export default authMiddleware({
     "/api/auth/callback/slack",
     "/api/flow",
     "/api/cron/wait",
-    "/",
   ],
+  debug: true,
 });
 
 export const config = {
